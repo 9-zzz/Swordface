@@ -14,12 +14,11 @@ public class Player2DInput : MonoBehaviour
 
   float jumpVelocity;
   float gravity;
-  Vector3 velocity;
   float velocityXSmoothing;
+  Vector3 velocity;
 
-  public bool facingRight = true;
-
-  public GameObject dustups;
+  //public bool facingRight = true;
+  //public GameObject dustups;
 
   void Start()
   {
@@ -40,14 +39,15 @@ public class Player2DInput : MonoBehaviour
 
     //print(velocity.normalized);
 
-    if(Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
+    if (((Input.GetKeyDown(KeyCode.Space)) || (Input.GetKeyDown(KeyCode.UpArrow))) && controller.collisions.below)
     {
       velocity.y = jumpVelocity;
       //Instantiate(dustups, transform.position + (-15*Vector3.up), transform.rotation);
     }
 
     // ###### Short Hop
-    //if (Input.GetKeyUp(KeyCode.Space) && (velocity.y != 0)) velocity.y /= 2;
+    // Maybe if only when falling? because this is constant on the y... bad.
+    //if ((Input.GetKeyUp(KeyCode.Space) || (Input.GetKeyUp(KeyCode.UpArrow))) && (velocity.y != 0)) velocity.y /= 2;
 
     float targetVelocityX = input.x * moveSpeed;
     // For slower x smoothing in the air.
@@ -56,17 +56,19 @@ public class Player2DInput : MonoBehaviour
     controller.Move(velocity * Time.deltaTime);
 
     // ###### Flip Dir
+    /*
     if(input.x > 0 && !facingRight)
 			Flip();
 		else if(input.x < 0 && facingRight)
 			Flip();
+    */
   }
 
   // ###### Flip Dir
   void Flip ()
 	{
 		// Switch the way the player is labelled as facing.
-		facingRight = !facingRight;
+		//facingRight = !facingRight;
 
 		// Multiply the player's x local scale by -1.
 		Vector3 theScale = transform.localScale;
